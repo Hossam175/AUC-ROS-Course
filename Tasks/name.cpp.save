@@ -1,0 +1,7 @@
+#include<cstdio>
+int main() {
+printf("I'm Software engineer");
+return 0;
+}
+
+
