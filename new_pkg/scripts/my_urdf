@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<robot name="my_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+  
+  <xacro:include filename="$(find my_robot)/urdf/my_robot.gazebo" />
+
+  <link name="robot_footprint"></link>
+
+  <joint name="joint_name" type="fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    <parent link="robot_footprint"/>
+    <child link="chassis"/>
+  </joint>
+
+  <link name="chassis">
+      <inertial>
+          <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+          <mass value="0.5"/>
+          <inertia ixx="0.1" ixy="0.1" ixz="0.1" iyy="0.0" iyz="0.0" izz="0.0"/>
+      </inertial>
+      <visual name="chassis_visual">
+          <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+          <geometry>
+              <cylinder radius="0.3" length="0.6"/> 
+          </geometry>
+      </visual>
+  </link>
+
+  <link name="right_side">
+      <inertial>
+          <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57075 0.0"/>
+          <mass value="0.2"/>
+          <inertia ixx="0.1" ixy="0.1" ixz="0.1" iyy="0.0" iyz="0.0" izz="0.0"/>
+      </inertial>
+      <visual name="right_side_visual">
+          <origin xyz="0.0 0.0 -0.5" rpy="0.0 1.57075 0.0"/>
+          <geometry>
+              <box size="0.5 0.3 0.2"/>
+          </geometry>
+      </visual>
+  </link>
+
+
+  <link name="left_side">
+    <inertial>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57075 0.0"/>
+        <mass value="0.2"/>
+        <inertia ixx="0.1" ixy="0.1" ixz="0.1" iyy="0.0" iyz="0.0" izz="0.0"/>
+    </inertial>
+    <visual name="left_side_visual">
+        <origin xyz="0.0 0.0 -0.5" rpy="0.0 1.57075 0.0"/>
+        <geometry>
+            <box size="0.5 0.3 0.2"/>
+        </geometry>
+    </visual>
+  </link>
+
+  <joint name="chassis_to_right_side" type="fixed">
+      <origin xyz="0.0 0.4 0.5" rpy="0.0 0.0 0.0"/>
+      <parent link="chassis"/>
+      <child link="right_side"/>
+  </joint>
+
+  <joint name="chassis_to_left_side" type="fixed">
+    <origin xyz="0.0 -0.4 0.5" rpy="0.0 0.0 0.0"/>
+    <parent link="chassis"/>
+    <child link="left_side"/>
+  </joint>
+
+  <link name="head">
+    <inertial>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <mass value="0.1"/>
+        <inertia ixx="0.1" ixy="0.05" ixz="0.05" iyy="0.0" iyz="0.0" izz="0.0"/>
+    </inertial>
+    <visual name="head_visual">
+        <origin xyz="0.0 0.0 -0.3" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <sphere radius="0.3"/> 
+        </geometry>
+    </visual>
+  </link>
+
+  <link name="right_leg">
+    <inertial>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57075 0.0"/>
+        <mass value="0.1"/>
+        <inertia ixx="0.1" ixy="0.05" ixz="0.05" iyy="0.0" iyz="0.0" izz="0.0"/>
+    </inertial>
+    <visual name="right_leg_visual">
+        <origin xyz="0.0 0.0 -0.4" rpy="0.0 1.57075 0.0"/>
+        <geometry>
+            <cylinder radius="0.09" length="0.05"/> 
+        </geometry>
+    </visual>
+  </link>
+
+  <joint name="chassis_to_right_leg" type="revolute">
+      <parent link="chassis"/>
+      <child link="right_leg"/>
+      <limit lower="-3.14159" upper="3.14159" velocity="50.0" effort="1000.0"/>
+      <origin xyz="0.02 0.2 0.0" rpy="0 0 1.57075"/>
+  </joint>
+
+  <link name="left_leg">
+    <inertial>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57075 0.0"/>
+        <mass value="0.1"/>
+        <inertia ixx="0.1" ixy="0.05" ixz="0.05" iyy="0.0" iyz="0.0" izz="0.0"/>
+    </inertial>
+    <visual name="left_leg_visual">
+        <origin xyz="0.0 0.0 -0.4" rpy="0.0 1.57075 0.0"/>
+        <geometry>
+            <cylinder radius="0.09" length="0.05"/> 
+        </geometry>
+    </visual>
+  </link>
+
+  <joint name="chassis_to_left_leg" type="revolute">
+    <parent link="chassis"/>
+    <child link="left_leg"/>
+    <limit lower="-3.14159" upper="3.14159" velocity="50.0" effort="1000.0"/>
+    <origin xyz="-0.01 -0.2 0.0" rpy="0 0 1.57075"/>
+  </joint>
+
+  <link name="camera_link">
+    <inertial>
+        <origin xyz="0.0 0.0 0.0" rpy="1.57075 0.0 0.0"/>
+        <mass value="0.05"/>
+        <inertia ixx="0.05" ixy="0.05" ixz="0.04" iyy="0.0" iyz="0.0" izz="0.0"/>
+    </inertial>
+    <visual name="camera_visual">
+        <origin xyz="0.0 0.0 -0.2" rpy="1.57075 0.0 0.0"/>
+        <geometry>
+            <box size="0.06 0.06 0.04"/> radius="0.09" length="0.05"/> 
+        </geometry>
+    </visual>
+  </link>
+
+  <joint name="chassis_to_camera" type="fixed">
+    <origin xyz="0.3 0.0 0.55" rpy="0.0 0.0 0.0"/>
+    <parent link="chassis"/>
+    <child link="camera_link"/>
+  </joint>
+
+  <link name="imu_link">
+    <inertial>
+        <origin xyz="0.0 0.0 0.0" rpy="1.57075 0.0 0.0"/>
+        <mass value="0.05"/>
+        <inertia ixx="0.09" ixy="0.09" ixz="0.09" iyy="0.0" iyz="0.0" izz="0.0"/>
+    </inertial>
+    <visual name="imu_visual">
+        <origin xyz="0.0 0.0 -0.4" rpy="1.57075 0.0 0.0"/>
+        <geometry>
+            <box size="0.06 0.06 0.04"/> radius="0.09" length="0.05"/> 
+        </geometry>
+    </visual>
+  </link>
+
+  <joint name="chassis_to_imu" type="fixed">
+    <origin xyz="0.3 0.0 0.55" rpy="0.0 0.0 0.0"/>
+    <parent link="chassis"/>
+    <child link="imu_link"/>
+  </joint>
+
+  <joint name="chassis_to_head" type="fixed">
+    <origin xyz="0.0 0.0 0.55" rpy="0.0 0.0 0.0"/>
+    <parent link="chassis"/>
+    <child link="head"/>
+  </joint>
+
+  <gazebo reference="chassis">
+    <material>Gazebo/Green</material>
+  </gazebo>
+
+  <gazebo reference="left_side">
+    <material>Gazebo/Yellow</material>
+  </gazebo>
+
+  <gazebo reference="right_side">
+    <material>Gazebo/red</material>
+  </gazebo>
+
+  <gazebo reference="head">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="imu">
+    <material>Gazebo/pink</material>
+  </gazebo>
+
+</robot>
